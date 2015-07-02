@@ -2,7 +2,7 @@ var port = process.env.PORT || 9000
 var io = require('socket.io')(port)
 
 var players = {}
-
+var powerups={}
 io.on('connection', function (socket) {
   socket.broadcast.emit('hi')
   console.log('connection', socket.id)
@@ -11,6 +11,10 @@ io.on('connection', function (socket) {
     var playerPos = players[playerId]
     socket.emit('update_position', playerPos)
   }
+for(var powerId in powerups){
+var powerPos=powerups[powerId]
+socket.emit('poner_powerups',powerPos)
+}
 
   socket.on('disconnect', function () {
     console.log('disconnection', socket.id)
@@ -22,6 +26,8 @@ io.on('connection', function (socket) {
     players[socket.id] = pos
     socket.broadcast.emit('update_position', pos)
   })
+
+
 })
 
 console.log('server started on port', port)
