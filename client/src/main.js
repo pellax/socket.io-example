@@ -72,6 +72,14 @@ socket.on('update_position', function (pos) {
   sprite.position.y = pos.y
 })
 
+socket.on('player_disconnected', function (id) {
+  var sprite = otherBunnies[id]
+  if (sprite) {
+    stage.removeChild(sprite)
+  }
+  delete otherBunnies[id] //otherBunnies[id] = undefined
+})
+
 socket.on('connect', function () {
   console.log('connected')
   socket.emit('update_position', bunny.position)

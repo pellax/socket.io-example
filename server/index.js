@@ -6,6 +6,7 @@ io.on('connection', function (socket) {
   console.log('connection', socket.id)
   socket.on('disconnect', function () {
     console.log('disconnection', socket.id)
+    socket.broadcast.emit('player_disconnected', socket.id)
   })
   socket.on('update_position', function (pos) {
     pos.id = socket.id
