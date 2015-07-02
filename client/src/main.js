@@ -17,10 +17,12 @@ var stage = new PIXI.Container();
 // This creates a texture from a 'bunny.png' image.
 var bunnyTexture = PIXI.Texture.fromImage('bunny.png');
 var bunny = new PIXI.Sprite(bunnyTexture);
+var powerUpTexture=PIXI.Texture.fromImage('carrot.png');
+var powerUp=new PIXI.Sprite(powerUpTexture);
 global.bunny = bunny
 var otherBunnies = {}
 var bunnySpeed = 5
-
+var globalPowerups={}
 // Setup the position and scale of the bunny
 bunny.position.x = Math.random() * 800
 bunny.position.y = Math.random() * 600
@@ -84,6 +86,27 @@ socket.on('connect', function () {
   console.log('connected')
   socket.emit('update_position', bunny.position)
 })
+socket.on ('disconnect',pos){
+console.log('player disconnected')
+socket.emit('disconnect',id)
+}
+socket.on('poner_powerups',function(pos){
+var sprite=globalPowerUps[pos.id]
+if(!sprite){
+sprite=new PIXI.Sprite(carrotTexture)
+stage.addChild(sprite)
+globalPowerUps[pos.id]=sprite
+sprite.anchor.set(0.5,0.5)
+
+}
+sprite.position.x=pos.x
+sprite.position.y=pos.y
+})
+
+
+
+
+
 // npm install
 //
 // npm run <script-name>
